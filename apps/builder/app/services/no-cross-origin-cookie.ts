@@ -18,30 +18,31 @@ export const preventCrossOriginCookie = (
 ) => {
   const secFetchSite = request.headers.get("sec-fetch-site");
   const secFetchMode = request.headers.get("sec-fetch-mode");
+  const secFetchDest = request.headers.get("sec-fetch-dest");
   const method = request.method;
   const url = request.url;
-  const referer = request.headers.get("referer");
-
-  // Enhanced logging for debugging
-  console.info("CORS Debug Info:", {
-    url,
-    method,
-    secFetchSite,
-    secFetchMode,
-    referer,
-    origin: request.headers.get("origin"),
-    host: request.headers.get("host"),
-  });
 
   if (secFetchSite === "same-origin") {
     // Same origin, OK
-    console.info("✅ Same origin request allowed");
     return;
   }
 
   if (secFetchMode === "navigate" && method === "GET") {
-    //  GET requests shouldn't mutate state so this is safe.
-    console.info("✅ Navigation GET request allowed");
+    // GET requests shouldn't mutate state so this is safe.
+    return;
+  }
+
+  // Allow cross-site document requests (e.g., clicking links from Vercel dashboard)
+  // These are legitimate navigation requests that should be allowed
+  if (
+    method === "GET" &&
+    secFetchDest === "document" &&
+    (secFetchMode === "cors" || secFetchMode === "navigate")
+  ) {
+    // This handles cases like:
+    // - Clicking deployment URLs from Vercel dashboard
+    // - Direct navigation from external sites
+    // - Bookmarks and direct URL access
     return;
   }
 
@@ -53,29 +54,18 @@ export const preventCrossOriginCookie = (
   ) {
     // Do not throw an error if the request has an Authorization or x-auth-token header.
     // In that case, it is not a simple CORS request and will be prevented by a preflight check.
-    console.info("✅ Request with auth headers allowed");
     return;
   }
 
   if (throwError) {
-    console.error(`❌ Cross-origin request to ${url} blocked`, {
+    console.error(`Cross-origin request to ${url} blocked`, {
       secFetchSite,
       secFetchMode,
+      secFetchDest,
       method,
-      referer,
-      headers: [...request.headers.entries()],
+      referer: request.headers.get("referer"),
+      reason: "Not a legitimate document navigation request",
     });
-
-    // TEMPORARY: Allow cross-site document requests for debugging
-    if (
-      secFetchMode === "cors" &&
-      request.headers.get("sec-fetch-dest") === "document"
-    ) {
-      console.warn(
-        "⚠️ TEMPORARILY allowing cross-site document request for debugging"
-      );
-      return;
-    }
 
     // allow service calls
     throw json(
