@@ -58,6 +58,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-scope: ${{ secrets.VERCEL_SCOPE }}
           ref-name: ${{ github.ref_name }}
           sha: ${{ github.sha }}
           environment: ${{ matrix.environment }}

@@ -11,6 +11,9 @@ inputs:
   vercel-project-id:
     description: "Vercel Project ID"
     required: true
+  vercel-scope:
+    description: "Vercel Scope"
+    required: true
   ref-name:
     description: "Branch"
     required: true
@@ -121,7 +124,8 @@ runs:
         pnpx vercel alias set \
         "${{ steps.deploy.outputs.domain }}" \
         "${ALIAS}-wstd-00-${{ inputs.environment }}" \
-        --token ${{ inputs.vercel-token }}
+        --token ${{ inputs.vercel-token }} \
+        --scope ${{ inputs.vercel-scope }}
 
         echo "value=${ALIAS}" >> $GITHUB_OUTPUT
       shell: bash
