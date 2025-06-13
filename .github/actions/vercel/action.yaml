@@ -11,6 +11,9 @@ inputs:
   vercel-project-id:
     description: "Vercel Project ID"
     required: true
+  vercel-scope:
+    description: "Vercel Scope"
+    required: true
   ref-name:
     description: "Branch"
     required: true
@@ -122,7 +125,7 @@ runs:
         "${{ steps.deploy.outputs.domain }}" \
         "${ALIAS}-wstd-00-${{ inputs.environment }}" \
         --token ${{ inputs.vercel-token }} \
-        --scope getwebstudio
+        --scope ${{ inputs.vercel-scope }}
 
         echo "value=${ALIAS}" >> $GITHUB_OUTPUT
       shell: bash
