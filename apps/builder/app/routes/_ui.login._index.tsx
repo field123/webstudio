@@ -90,6 +90,7 @@ export const loader = async ({
       isGoogleEnabled: Boolean(
         env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET
       ),
+      isElasticPathEnabled: Boolean(env.ELASTIC_PATH_URL),
     },
     { headers }
   );

@@ -81,7 +81,19 @@ export const clientLoader = async ({
 
   if (clientCsrfToken === undefined) {
     const { csrfToken } = serverData;
-    invariant(csrfToken !== "", "CSRF token is empty");
+
+    // Better error logging for production debugging
+    if (csrfToken === "") {
+      console.error(
+        "CSRF token is empty. Check AUTH_SECRET environment variable."
+      );
+      console.error("Server data:", serverData);
+    }
+
+    invariant(
+      csrfToken !== "",
+      "CSRF token is empty - check AUTH_SECRET environment variable"
+    );
     updateCsrfToken(csrfToken);
   }
 

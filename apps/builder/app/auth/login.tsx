@@ -11,6 +11,7 @@ import { GithubIcon, GoogleIcon, EpEmblemIcon } from "@webstudio-is/icons";
 import { Form } from "@remix-run/react";
 import { authPath } from "~/shared/router-utils";
 import { SecretLogin } from "./secret-login";
+import { ElasticPathLogin } from "./elastic-path-login";
 
 const globalStyles = globalCss({
   body: {
@@ -24,6 +25,7 @@ export type LoginProps = {
   isGithubEnabled?: boolean;
   isGoogleEnabled?: boolean;
   isSecretLoginEnabled?: boolean;
+  isElasticPathEnabled?: boolean;
 };
 
 export const Login = ({
@@ -31,6 +33,7 @@ export const Login = ({
   isGithubEnabled,
   isGoogleEnabled,
   isSecretLoginEnabled,
+  isElasticPathEnabled,
 }: LoginProps) => {
   globalStyles();
   return (
@@ -86,6 +89,7 @@ export const Login = ({
                 Sign in with GitHub
               </Button>
             </Form>
+            {isElasticPathEnabled && <ElasticPathLogin />}
             {isSecretLoginEnabled && <SecretLogin />}
           </Flex>
         </TooltipProvider>
