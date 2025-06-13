@@ -98,91 +98,87 @@ builderAuthenticator.use(
 );
 
 // Add Elastic Path strategy to builder authenticator as well
-builderAuthenticator.use(
-  new FormStrategy(async ({ form, request }) => {
-    const email = form.get("email");
-    const password = form.get("password");
+const elasticPath = new FormStrategy(async ({ form, request }) => {
+  const email = form.get("email");
+  const password = form.get("password");
 
-    if (!email || typeof email !== "string") {
-      throw new Error("Email is required");
+  if (!email || typeof email !== "string") {
+    throw new Error("Email is required");
+  }
+
+  if (!password || typeof password !== "string") {
+    throw new Error("Password is required");
+  }
+
+  try {
+    const data = new URLSearchParams({
+      grant_type: "password",
+      username: email,
+      password,
+    });
+
+    // Authenticate with Elastic Path
+    const response = await fetch(`${env.ELASTIC_PATH_URL}/oauth/access_token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: data,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Authentication failed: ${response.statusText}`);
     }
 
-    if (!password || typeof password !== "string") {
-      throw new Error("Password is required");
+    const tokenResponse = (await response.json()) as {
+      access_token?: string;
+      refresh_token?: string;
+      identifier?: "password";
+      expires?: number;
+      expires_in?: number;
+      token_type?: "Bearer";
+    };
+
+    if (!tokenResponse.token_type) {
+      throw new Error(JSON.stringify(tokenResponse));
     }
 
-    try {
-      const data = new URLSearchParams({
-        grant_type: "password",
-        username: email,
-        password,
-      });
-
-      // Authenticate with Elastic Path
-      const response = await fetch(
-        `${env.ELASTIC_PATH_URL}/oauth/access_token`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: data,
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Authentication failed: ${response.statusText}`);
-      }
-
-      const tokenResponse = (await response.json()) as {
-        access_token?: string;
-        token_type?: string;
-        expires_in?: number;
-        error?: string;
-        error_description?: string;
-      };
-
-      if (tokenResponse.error) {
-        throw new Error(tokenResponse.error_description || tokenResponse.error);
-      }
-
-      if (!tokenResponse.access_token) {
-        throw new Error("No access token received");
-      }
-
-      const context = await createContext(request);
-
-      // Create or login user in the database
-      const user = await db.user.createOrLoginWithElasticPath(context, {
-        email: email,
-        username: email,
-        image: "",
-        provider: "elastic-path",
-      });
-
-      // Store the EP access token in a separate session
-      await storeEPToken(request, {
-        accessToken: tokenResponse.access_token,
-        tokenType: tokenResponse.token_type,
-        expiresIn: tokenResponse.expires_in,
-        userId: user.id,
-      });
-
-      return {
-        userId: user.id,
-        createdAt: Date.now(),
-      };
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error({
-          error,
-          extras: {
-            loginMethod: "elastic-path",
-          },
-        });
-      }
-      throw error;
+    if (!tokenResponse.access_token) {
+      throw new Error("No access token received");
     }
-  }),
-  "elastic-path"
-);
+
+    const context = await createContext(request);
+
+    // Create or login user in the database
+    const user = await db.user.createOrLoginWithElasticPath(context, {
+      email: email,
+      username: email,
+      image: "",
+      provider: "elastic-path",
+    });
+
+    // Store the EP access token in a separate session
+    await storeEPToken(request, {
+      accessToken: tokenResponse.access_token,
+      tokenType: tokenResponse.token_type,
+      expiresIn: tokenResponse.expires_in,
+      userId: user.id,
+    });
+
+    return {
+      userId: user.id,
+      createdAt: Date.now(),
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error({
+        error,
+        extras: {
+          loginMethod: "elastic-path",
+        },
+      });
+    }
+    throw error;
+  }
+});
+// builderAuthenticator.use(elasticPath, "elastic-path");
