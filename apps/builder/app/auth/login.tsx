@@ -7,7 +7,7 @@ import {
   Text,
   theme,
 } from "@webstudio-is/design-system";
-import { GithubIcon, GoogleIcon, WebstudioIcon } from "@webstudio-is/icons";
+import { GithubIcon, GoogleIcon, EpEmblemIcon } from "@webstudio-is/icons";
 import { Form } from "@remix-run/react";
 import { authPath } from "~/shared/router-utils";
 import { SecretLogin } from "./secret-login";
@@ -56,7 +56,7 @@ export const Login = ({
           },
         }}
       >
-        <WebstudioIcon size={48} />
+        <EpEmblemIcon size={48} />
         <Text variant="brandSectionTitle" as="h1" align="center">
           Welcome to Webstudio
         </Text>

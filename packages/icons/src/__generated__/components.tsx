@@ -2202,6 +2202,28 @@ export const EmbedIcon: IconComponent = forwardRef(
 );
 EmbedIcon.displayName = "EmbedIcon";
 
+export const EpEmblemIcon: IconComponent = forwardRef(
+  ({ fill = "none", size = 16, ...props }, forwardedRef) => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 26 60"
+        width={size}
+        height={size}
+        fill={fill}
+        {...props}
+        ref={forwardedRef}
+      >
+        <path
+          fill="#2BCC7E"
+          d="M10.19 22.119c1.996 5.012 2.053 10.683.058 15.696l15.61-.047V22.124l-15.667-.005Zm0 0 11.076-11.057L10.18 0 .319 9.837l5.159 5.146a21.11 21.11 0 0 1 4.713 7.136Zm-4.712 22.79L.32 50.055l9.859 9.837L21.266 48.83 10.248 37.815c-1.035 2.596-2.664 4.992-4.77 7.094Z"
+        />
+      </svg>
+    );
+  }
+);
+EpEmblemIcon.displayName = "EpEmblemIcon";
+
 export const ExtensionIcon: IconComponent = forwardRef(
   ({ fill = "none", size = 16, ...props }, forwardedRef) => {
     return (

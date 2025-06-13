@@ -7,7 +7,7 @@ import {
   theme,
   buttonStyle,
 } from "@webstudio-is/design-system";
-import { WebstudioIcon } from "@webstudio-is/icons";
+import { EpEmblemIcon } from "@webstudio-is/icons";
 
 const pageStyle = css({
   position: "fixed",
@@ -33,7 +33,7 @@ export const ErrorMessage = ({
   return (
     <Grid className={pageStyle()} justify={"center"} gap={6}>
       <AccessibleIcon label="Logo">
-        <WebstudioIcon size="60" />
+        <EpEmblemIcon size="60" />
       </AccessibleIcon>
       <div />
       <div />

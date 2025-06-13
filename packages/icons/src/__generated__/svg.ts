@@ -164,6 +164,8 @@ export const EmailIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" vi
 
 export const EmbedIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" width="100%" height="100%" style="display: block;"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M12 10.667 14.667 8 12 5.333M4 5.333 1.333 8 4 10.667M9.667 2.667 6.333 13.333"/></svg>`;
 
+export const EpEmblemIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 26 60" width="100%" height="100%" style="display: block;"><path fill="#2BCC7E" d="M10.19 22.119c1.996 5.012 2.053 10.683.058 15.696l15.61-.047V22.124l-15.667-.005Zm0 0 11.076-11.057L10.18 0 .319 9.837l5.159 5.146a21.11 21.11 0 0 1 4.713 7.136Zm-4.712 22.79L.32 50.055l9.859 9.837L21.266 48.83 10.248 37.815c-1.035 2.596-2.664 4.992-4.77 7.094Z"/></svg>`;
+
 export const ExtensionIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" width="100%" height="100%" style="display: block;"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.5h6m-6 0h-6m6 0V14M13.5 8.5v4.667c0 .736-.597 1.333-1.333 1.333H2.833A1.333 1.333 0 0 1 1.5 13.167V3.833c0-.736.597-1.333 1.333-1.333H7.5v6"/><path stroke="currentColor" stroke-linejoin="round" d="M9.5.5v6h6V2.207A1.707 1.707 0 0 0 13.793.5H9.5Z"/></svg>`;
 
 export const ExternalLinkIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" width="100%" height="100%" style="display: block;"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M10 2h4v4M6.667 9.333 14 2M12 8.667v4A1.334 1.334 0 0 1 10.667 14H3.333A1.334 1.334 0 0 1 2 12.667V5.333A1.333 1.333 0 0 1 3.333 4h4"/></svg>`;
