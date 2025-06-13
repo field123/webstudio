@@ -76,6 +76,27 @@ export const createOrLoginWithOAuth = async (
   return newUser;
 };
 
+export type ElasticPathProfile = {
+  email: string;
+  username: string;
+  image: string;
+  provider: string;
+};
+
+export const createOrLoginWithElasticPath = async (
+  context: AppContext,
+  profile: ElasticPathProfile
+): Promise<User> => {
+  const userData = {
+    email: profile.email,
+    username: profile.username,
+    image: profile.image,
+    provider: profile.provider,
+  };
+  const newUser = await genericCreateAccount(context, userData);
+  return newUser;
+};
+
 export const createOrLoginWithDev = async (
   context: AppContext,
   email: string
