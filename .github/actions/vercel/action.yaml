@@ -121,8 +121,7 @@ runs:
         pnpx vercel alias set \
         "${{ steps.deploy.outputs.domain }}" \
         "${ALIAS}-wstd-00-${{ inputs.environment }}" \
-        --token ${{ inputs.vercel-token }} \
-        --scope getwebstudio
+        --token ${{ inputs.vercel-token }}
 
         echo "value=${ALIAS}" >> $GITHUB_OUTPUT
       shell: bash
